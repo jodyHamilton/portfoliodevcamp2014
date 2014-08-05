@@ -1,0 +1,51 @@
+<?php
+
+/**
+ * Implements hook_block_info().
+ */
+function portfolio_overview_block_info() {
+	$blocks['overview'] = array(
+    'info' => 'Portfolio Overview',
+	);
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function portfolio_overview_block_view($delta = '') {
+	$block = array();
+	if ($delta == 'overview') {
+		$block['subject'] = 'Portfolio at a Glance';
+	  $block['content'] = portfolio_overview_output();
+	}
+  return $block;
+}
+
+function portfolio_overview_output() {
+	$blog_count = db_query("
+		SELECT COUNT(nid)
+		FROM node
+		WHERE type = 'blog_post'
+	")->fetchColumn();
+	$badge_count = db_query("
+		SELECT COUNT(nid)
+		FROM node
+		WHERE type = 'badge'
+	")->fetchColumn();
+	$project_count = db_query("
+		SELECT COUNT(nid)
+		FROM node
+		WHERE type = 'project'
+	")->fetchColumn();
+	$skill_count = db_query("
+		SELECT COUNT(tid)
+		FROM taxonomy_term_data
+		WHERE vid = 1
+	")->fetchColumn();
+  $output = '<h3>' . $blog_count . ' blog posts written</h3>';
+  $output .= '<h3>' . $badge_count . ' badges earned</h3>';
+  $output .= '<h3>' . $skill_count . ' skills in progress</h3>';
+  $output .= '<h3>' . $project_count . ' projects to show off</h3>';
+	return $output;
+}
