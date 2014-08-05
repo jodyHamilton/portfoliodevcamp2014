@@ -1,0 +1,27 @@
+name = Bear Habitat
+description = Contains Bear configuration settings for different server environments (dev, testing, local) using the Habitat module.
+core = 7.x
+package = Bear
+project = bear
+dependencies[] = ctools
+dependencies[] = habitat
+dependencies[] = strongarm
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:2
+features[variable][] = habitat_disable_dev
+features[variable][] = habitat_disable_local
+features[variable][] = habitat_disable_prod
+features[variable][] = habitat_disable_test
+features[variable][] = habitat_enable_dev
+features[variable][] = habitat_enable_local
+features[variable][] = habitat_enable_prod
+features[variable][] = habitat_enable_test
+features[variable][] = habitat_habitats
+features[variable][] = habitat_variable
+
+; Information added by Drupal.org packaging script on 2014-07-30
+version = "7.x-1.3"
+core = "7.x"
+project = "bear"
+datestamp = "1406759928"
+

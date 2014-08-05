@@ -1,0 +1,22 @@
+name = Bear Habitat Local
+description = Contains all configuration settings specific to the Local Environment.
+core = 7.x
+package = Bear
+project = bear
+dependencies[] = ctools
+dependencies[] = habitat
+dependencies[] = strongarm
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:2
+features[variable][] = cache
+features[variable][] = error_level
+features[variable][] = file_temporary_path
+features[variable][] = preprocess_css
+features[variable][] = preprocess_js
+
+; Information added by Drupal.org packaging script on 2014-07-30
+version = "7.x-1.3"
+core = "7.x"
+project = "bear"
+datestamp = "1406759928"
+
