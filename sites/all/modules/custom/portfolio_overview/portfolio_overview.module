@@ -17,12 +17,12 @@ function portfolio_overview_block_view($delta = '') {
 	$block = array();
 	if ($delta == 'overview') {
 		$block['subject'] = 'Portfolio at a Glance';
-	  $block['content'] = portfolio_overview_output();
+	  $block['content'] = portfolio_overview_output('block');
 	}
   return $block;
 }
 
-function portfolio_overview_output() {
+function portfolio_overview_output($type) {
 	$blog_count = db_query("
 		SELECT COUNT(nid)
 		FROM node
@@ -45,7 +45,34 @@ function portfolio_overview_output() {
 	")->fetchColumn();
   $output = '<h3>' . $blog_count . ' blog posts written</h3>';
   $output .= '<h3>' . $badge_count . ' badges earned</h3>';
-  $output .= '<h3>' . $skill_count . ' skills in progress</h3>';
+  $output .= '<h3 id="portfolio-skills">' . $skill_count . ' skills in progress</h3>';
+  $output .= '<div id="portfolio-tagcloud"></div>';
   $output .= '<h3>' . $project_count . ' projects to show off</h3>';
+	if ($type == 'block') {
+		$output .= l('View more', 'portfolio');
+	}
 	return $output;
 }
+
+/**
+ * Implements hook_menu().
+ */
+function portfolio_overview_menu() {
+	$items['portfolio'] = array(
+		'title' => 'Portfolio Overview',
+		'access arguments' => array('access content'),
+		'page callback' => 'portfolio_overview_page',
+	);
+	return $items;
+}
+
+function portfolio_overview_page() {
+  $filepath = drupal_get_path('module', 'portfolio_overview');
+  $filepath .= '/portfolio_overview.js';
+	drupal_add_js($filepath);
+	$filepath = drupal_get_path('module', 'tagadelic');
+	$filepath .= '/tagadelic.css';
+	drupal_add_css($filepath);
+	return portfolio_overview_output('page');
+}
+
